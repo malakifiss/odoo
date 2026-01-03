@@ -6,9 +6,9 @@ class Inscription(models.Model):
     _name = 'tp.inscription'
     _description = 'Inscription'
 
-    # =====================
+   
     # LEVEL 1: BASIC FIELDS
-    # =====================
+
     name = fields.Char(string="Nom complet", required=True)
     email = fields.Char(string="Email")
     telephone = fields.Char(string="Téléphone")
@@ -20,9 +20,9 @@ class Inscription(models.Model):
         default=fields.Date.today
     )
 
-    # =====================
+
     # LEVEL 2: WORKFLOW
-    # =====================
+
     statut = fields.Selection(
         [
             ('nouveau', 'Nouveau'),
@@ -34,18 +34,17 @@ class Inscription(models.Model):
         tracking=True
     )
 
-    # =====================
+
     # LEVEL 1: VALIDATION
-    # =====================
+ 
     @api.constrains('email')
     def _check_email(self):
         for rec in self:
             if rec.email and '@' not in rec.email:
                 raise ValidationError("Adresse email invalide.")
 
-    # =====================
     # LEVEL 2: ACTIONS
-    # =====================
+  
     def action_valider(self):
         for rec in self:
             rec.statut = 'valide'
