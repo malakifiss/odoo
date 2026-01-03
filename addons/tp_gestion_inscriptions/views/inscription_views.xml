@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ========================= -->
+    <!-- TREE (LIST) VIEW -->
+    <!-- ========================= -->
+    <record id="view_inscription_tree" model="ir.ui.view">
+        <field name="name">tp.inscription.tree</field>
+        <field name="model">tp.inscription</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="telephone"/>
+                <field name="date_inscription"/>
+                <field name="statut"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ========================= -->
+    <!-- FORM VIEW (ODOO 17) -->
+    <!-- ========================= -->
+    <record id="view_inscription_form" model="ir.ui.view">
+        <field name="name">tp.inscription.form</field>
+        <field name="model">tp.inscription</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <header>
+                    <button name="action_valider"
+                            type="object"
+                            string="Valider"
+                            class="btn-primary"
+                            invisible="statut != 'nouveau'"/>
+
+                    <button name="action_annuler"
+                            type="object"
+                            string="Annuler"
+                            class="btn-danger"
+                            invisible="statut == 'annule'"/>
+
+                    <field name="statut" widget="statusbar"/>
+                </header>
+
+                <sheet>
+                    <group string="Informations personnelles">
+                        <field name="name"/>
+                        <field name="email"/>
+                        <field name="telephone"/>
+                        <field name="cin"/>
+                    </group>
+
+                    <group string="Détails d'inscription">
+                        <field name="date_inscription"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <!-- ========================= -->
+    <!-- ACTION -->
+    <!-- ========================= -->
+    <record id="action_inscription" model="ir.actions.act_window">
+        <field name="name">Inscriptions</field>
+        <field name="res_model">tp.inscription</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ========================= -->
+    <!-- MENUS -->
+    <!-- ========================= -->
+    <menuitem id="menu_inscription_root"
+              name="Gestion des inscriptions"/>
+
+    <menuitem id="menu_inscription"
+              parent="menu_inscription_root"
+              name="Inscriptions simples"
+              action="action_inscription"/>
+
+</odoo>
